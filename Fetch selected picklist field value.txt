@@ -1,0 +1,30 @@
+//FETCH THE SELECTED FIELD VALUE OF A PARTICULAR RECORD TYPE
+// Get the record type ID for which you want to retrieve picklist values
+String recordTypeId = RECORD_TYPE_ID
+
+// Get the object API name for which the record type is defined
+String objectApiName = 'OBJECT_API_NAME';
+
+// Use Schema.DescribeSObjectResult to describe the object and retrieve picklist values
+Schema.DescribeSObjectResult describeResult = Schema.getGlobalDescribe().get(objectApiName).getDescribe();
+
+// Get the field info for the picklist field you want to retrieve values for
+Schema.DescribeFieldResult fieldResult = describeResult.fields.getMap().get('PICKLIST_FIELD_API_NAME').getDescribe();
+
+// Get the selected picklist values for the specified field and record type
+List<Schema.PicklistEntry> picklistValues = fieldResult.getPicklistValues();
+
+// Iterate over the picklist values and check if they are selected for the specified record type
+List<String> selectedValues = new List<String>();
+
+for (Schema.PicklistEntry picklistValue : picklistValues) {
+    if (picklistValue.isActive() && picklistValue.isDefaultValue()) {
+        selectedValues.add(picklistValue.getValue());
+    }
+}
+
+// Iterate over the selected picklist values and do something
+for (String selectedValue : selectedValues) {
+    // Do something with the selected picklist value
+    System.debug('Selected Value: ' + selectedValue);
+}
