@@ -1,4 +1,4 @@
-FETCH ALL THE FIELD VALUES OF A PARTICULAR RECORD TYPE
+//FETCH ALL THE FIELD VALUES OF A PARTICULAR RECORD TYPE
 // Get the record type ID for which you want to retrieve picklist values
 String recordTypeId = 'RECORD_TYPE_ID';
 
@@ -24,3 +24,4 @@ for (Schema.PicklistEntry picklistValue : picklistValues) {
     String value = picklistValue.getValue();
     // Do something with the picklist value
     System.debug('Label: ' + label + ', Value: ' + value);
+}
