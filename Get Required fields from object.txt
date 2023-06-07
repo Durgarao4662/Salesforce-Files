@@ -1,0 +1,23 @@
+// Specify the object API name for which you want to retrieve the required fields
+String objectApiName = 'Account';
+
+// Use the Schema class to get the describe result for the object
+Schema.DescribeSObjectResult describeResult = Schema.SObjectType.Account;
+
+// Get the field map from the describe result
+Map<String, Schema.SObjectField> fieldMap = describeResult.fields.getMap();
+
+// Iterate over the fields to find the required fields
+List<String> requiredFields = new List<String>();
+for (String fieldName : fieldMap.keySet()) {
+    Schema.SObjectField field = fieldMap.get(fieldName);
+    Schema.DescribeFieldResult fieldDescribe = field.getDescribe();
+    
+    // Check if the field is required
+    if (fieldDescribe.isNillable() == false && fieldDescribe.isCreateable()) {
+        requiredFields.add(fieldName);
+    }
+}
+
+// Print the required fields
+System.debug('Required Fields for ' + objectApiName + ': ' + requiredFields);
